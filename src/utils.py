@@ -1,15 +1,10 @@
 import os
-import sys
-import glob
 import json
 import datetime
+import re
 from collections import Counter
-from collections import Counter
-
-import pandas as pd
 from matplotlib import pyplot as plt
-import seaborn as sns
-from nltk.corpus import stopwords
+import pandas as pd
 
 
 def break_combined_weeks(combined_weeks):
@@ -179,4 +174,27 @@ def convert_2_timestamp(column, data):
                 a = datetime.datetime.fromtimestamp(float(time_unix))
                 timestamp_.append(a.strftime('%Y-%m-%d %H:%M:%S'))
         return timestamp_
-    else: print(f"{column} not in data")
+    else: 
+        print(f"{column} not in data")
+
+
+def get_top_20_user(data, channel='Random'):
+    """get user with the highest number of message sent to any channel"""
+
+    data['sender_name'].value_counts()[:20].plot.bar(figsize=(15, 7.5))
+    plt.title(f'Top 20 Message Senders in #{channel} channels', size=15, fontweight='bold')
+    plt.xlabel("Sender Name", size=18); plt.ylabel("Frequency", size=14);
+    plt.xticks(size=12); plt.yticks(size=12);
+    plt.show()
+
+    data['sender_name'].value_counts()[-10:].plot.bar(figsize=(15, 7.5))
+    plt.title(f'Bottom 10 Message Senders in #{channel} channels', size=15, fontweight='bold')
+    plt.xlabel("Sender Name", size=18); plt.ylabel("Frequency", size=14);
+    plt.xticks(size=12); plt.yticks(size=12);
+    plt.show()
+
+
+def get_tagged_users(df):
+    """get all @ in the messages"""
+
+    return df['msg_content'].map(lambda x: re.findall(r'@U\w+', x))
