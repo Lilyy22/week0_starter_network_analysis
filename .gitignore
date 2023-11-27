@@ -1,6 +1,9 @@
 ##########################
 # KEDRO PROJECT
 
+# ignore the batch 6 dataset
+/data/
+
 # ignore all local configuration
 conf/local/**
 !conf/local/.gitkeep
