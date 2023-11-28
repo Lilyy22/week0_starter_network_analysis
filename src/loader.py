@@ -42,7 +42,8 @@ class SlackDataLoader:
             users = json.load(f)
 
         return users
-    
+
+
     def get_channels(self):
         '''
         write a function to get all the channels from the json file
@@ -51,6 +52,7 @@ class SlackDataLoader:
             channels = json.load(f)
 
         return channels
+
 
     def get_channel_messages(self, channel_name):
         '''
@@ -70,7 +72,7 @@ class SlackDataLoader:
             userIdsByName[user['name']] = user['id']
         return userNamesById, userIdsByName        
 
-    # combine all json file in all-weeks8-9
+    # combine all json file in a directory
     def slack_parser(self, path_channel):
         """ parse slack data to extract useful informations from the json file
             step of execution
@@ -86,7 +88,8 @@ class SlackDataLoader:
         combined = []
         for json_file in glob.glob(f"{path_channel}*.json"):
             with open(json_file, 'r', encoding="utf8") as slack_data:
-                combined.append(slack_data)
+                 slack_data = json.load(slack_data)
+                 combined.append(slack_data)
 
         # loop through all json files and extract required informations
         dflist = []
@@ -136,7 +139,7 @@ class SlackDataLoader:
         
         return dfall
 
-
+   
     def get_community_participation(self, path):
         """ specify path to get json files"""
         combined = []
