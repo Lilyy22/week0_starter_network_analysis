@@ -30,13 +30,13 @@ def break_combined_weeks(combined_weeks):
 
     return plus_one_week, minus_one_week
 
+
 def get_msgs_df_info(df):
     msgs_count_dict = df.user.value_counts().to_dict()
     replies_count_dict = dict(Counter([u for r in df.replies if r != None for u in r]))
     mentions_count_dict = dict(Counter([u for m in df.mentions if m != None for u in m]))
     links_count_dict = df.groupby("user").link_count.sum().to_dict()
     return msgs_count_dict, replies_count_dict, mentions_count_dict, links_count_dict
-
 
 
 def get_messages_dict(msgs):
@@ -118,6 +118,7 @@ def get_messages_dict(msgs):
     
     return msg_list
 
+
 def from_msg_get_replies(msg):
     replies = []
     if "thread_ts" in msg and "replies" in msg:
@@ -130,10 +131,12 @@ def from_msg_get_replies(msg):
             pass
     return replies
 
+
 def msgs_to_df(msgs):
     msg_list = get_messages_dict(msgs)
     df = pd.DataFrame(msg_list)
     return df
+
 
 def process_msgs(msg):
     '''
@@ -146,6 +149,7 @@ def process_msgs(msg):
     rply_list = from_msg_get_replies(msg)
 
     return msg_list, rply_list
+
 
 def get_messages_from_channel(channel_path):
     '''
